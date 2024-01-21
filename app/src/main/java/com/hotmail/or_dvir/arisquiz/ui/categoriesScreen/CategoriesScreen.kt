@@ -29,8 +29,6 @@ fun CategorySelectionScreen(
 ) {
     LaunchedEffect(Unit) {
         viewModel.apply {
-            getAllCategories()
-
             categoriesOneTimeEvents.collectLatest {
                 when (it) {
                     is CategoriesOneTimeEvents.Message -> {

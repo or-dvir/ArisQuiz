@@ -21,7 +21,6 @@ class CategoriesViewModel(
     private val app: Application,
     private val repo: CategoriesRepository
 ) : AndroidViewModel(app) {
-
     private var isLoading by mutableStateOf(false)
 
     private val _categoriesState = MutableStateFlow(CategoriesScreenState())
@@ -30,7 +29,11 @@ class CategoriesViewModel(
     private val _categoriesOneTimeEvents = Channel<CategoriesOneTimeEvents>()
     internal val categoriesOneTimeEvents = _categoriesOneTimeEvents.receiveAsFlow()
 
-    fun getAllCategories() = viewModelScope.launch {
+    init {
+        getAllCategories()
+    }
+
+    private fun getAllCategories() = viewModelScope.launch {
         _categoriesState.apply {
             isLoading = true
             val result = repo.getAllCategories()

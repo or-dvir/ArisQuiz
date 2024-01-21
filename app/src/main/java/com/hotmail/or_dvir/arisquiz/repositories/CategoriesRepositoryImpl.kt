@@ -17,8 +17,6 @@ class CategoriesRepositoryImpl : CategoriesRepository {
                 val result =
                     RetrofitClient.triviaApi.getAllCategories().execute()
 
-                stopped here. getting exception "expected array but got object"
-
                 TriviaResponse.fromResponseCode(
                     result.code(),
                     result.body().toLocalModels(),

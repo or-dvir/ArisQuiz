@@ -20,9 +20,10 @@ sealed class TriviaResponse<T>(val responseCode: Int, val data: T? = null) {
         private const val CODE_RATE_LIMIT = 5
         private const val CODE_EXCEPTION = -1
 
+        // todo investigate more about these response codes... the api claims to attach these, but where?!
         fun <T> fromResponseCode(code: Int, data: T, message: String?): TriviaResponse<T> =
             when (code) {
-                0 -> Success(data)
+                0, 200 -> Success(data)
                 1 -> NoResult()
                 2 -> InvalidParameter()
                 3 -> TokenNotFound()

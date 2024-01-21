@@ -21,7 +21,7 @@ class CategoriesViewModel(
     private val app: Application,
     private val repo: CategoriesRepository
 ) : AndroidViewModel(app) {
-    private var isLoading by mutableStateOf(false)
+    internal var isLoading by mutableStateOf(false)
 
     private val _categoriesState = MutableStateFlow(CategoriesScreenState())
     internal val categoriesState = _categoriesState.asStateFlow()

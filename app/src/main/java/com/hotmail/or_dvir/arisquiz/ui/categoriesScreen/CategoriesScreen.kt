@@ -1,6 +1,7 @@
 package com.hotmail.or_dvir.arisquiz.ui.categoriesScreen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hotmail.or_dvir.arisquiz.ui.FullScreenProgressIndicator
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -41,7 +43,14 @@ fun CategorySelectionScreen(
 
     val state by viewModel.categoriesState.collectAsStateWithLifecycle()
 
-    Text("${state.categories.size} categories")
+    Column {
+        Text("${state.categories.size} categories")
+
+        // this must be last in the colum to show above everything else
+        if (viewModel.isLoading) {
+            FullScreenProgressIndicator()
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

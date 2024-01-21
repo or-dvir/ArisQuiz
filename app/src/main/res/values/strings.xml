@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Ari\'s Quiz</string>
+
+    <string name="categories_generalServerError_d">A server error has occurred (%d).\nPlease try again</string>
+    <string name="categories_unknownServerError_d">An unknown server error occurred (%d).\nPlease try again</string>
+</resources>

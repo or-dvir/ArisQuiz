@@ -1,8 +1,16 @@
 package com.hotmail.or_dvir.arisquiz.ui.categoriesScreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,9 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hotmail.or_dvir.arisquiz.R
+import com.hotmail.or_dvir.arisquiz.models.local.CategoryLocalModel
 import com.hotmail.or_dvir.arisquiz.ui.FullScreenProgressIndicator
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -50,16 +61,9 @@ fun CategorySelectionScreen(
     val state by viewModel.categoriesState.collectAsStateWithLifecycle()
 
     Box {
-        Column {
-            Text("${state.categories.size} categories")
+        ScreenContent(state)
 
-            // this must be last in the colum to show above everything else
-            if (viewModel.isLoading) {
-                FullScreenProgressIndicator()
-            }
-        }
-
-        if(messageToUser.isNotBlank()) {
+        if (messageToUser.isNotBlank()) {
             AlertDialog(
                 onDismissRequest = { messageToUser = "" },
                 confirmButton = {
@@ -69,6 +73,53 @@ fun CategorySelectionScreen(
                 },
                 text = { Text(messageToUser) }
             )
+        }
+
+        // this must be last in the Box to show above everything else
+        if (viewModel.isLoading) {
+            FullScreenProgressIndicator()
+        }
+    }
+}
+
+@Composable
+private fun ScreenContent(state: CategoriesScreenState) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        ScreenTitle()
+        Spacer(modifier = Modifier.height(32.dp))
+        CategoriesList(state.categories)
+    }
+}
+
+@Composable
+private fun ScreenTitle() {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        // todo test this on read device
+        style = MaterialTheme.typography.displaySmall,
+        text = stringResource(R.string.categories_screenTitle),
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun CategoriesList(categories: List<CategoryLocalModel>) {
+    LazyVerticalGrid(
+        modifier = Modifier.fillMaxSize(),
+        // todo test minSize
+        columns = GridCells.Adaptive(minSize = 150.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(
+            key = { it.id },
+            items = categories
+        ) {
+            Category(name = it.name, onClick = { /*todo*/ })
         }
     }
 }
@@ -97,13 +148,18 @@ private fun Category(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, backgroundColor = 0xffffff)
 @Composable
-private fun CategoryPreview() {
-    Box(Modifier.padding(8.dp)) {
-        Category(
-            name = "category name",
-            onClick = {}
+private fun ScreenPreview() {
+    ScreenContent(
+        state = CategoriesScreenState(
+            categories = listOf(
+                CategoryLocalModel("history", "1"),
+                CategoryLocalModel("games", "2"),
+                CategoryLocalModel("geography", "3"),
+                CategoryLocalModel("celebrities", "4"),
+                CategoryLocalModel("cinema", "5")
+            )
         )
-    }
+    )
 }

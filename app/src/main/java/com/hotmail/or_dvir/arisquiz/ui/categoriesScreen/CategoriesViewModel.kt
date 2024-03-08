@@ -1,7 +1,6 @@
 package com.hotmail.or_dvir.arisquiz.ui.categoriesScreen
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,8 +36,6 @@ class CategoriesViewModel(
         _categoriesState.apply {
             isLoading = true
             val result = repo.getAllCategories()
-            Log.i("aaaaa", result.toString())
-            Log.i("aaaaa", "data " + result.data)
             isLoading = false
 
             when (repo.getAllCategories()) {

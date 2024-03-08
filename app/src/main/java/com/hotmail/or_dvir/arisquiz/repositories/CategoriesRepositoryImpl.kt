@@ -17,14 +17,13 @@ class CategoriesRepositoryImpl : CategoriesRepository {
                 val result =
                     RetrofitClient.triviaApi.getAllCategories().execute()
 
-                // todo maybe dont use this? just use "isSuccessful"?
                 TriviaResponse.fromResponseCode(
                     result.code(),
                     result.body().toLocalModels(),
                     result.message()
                 )
             } catch (e: Exception) {
-                Log.i(logTag, e.message, e)
+                Log.e(logTag, e.message, e)
                 TriviaResponse.Exception()
             }
         }

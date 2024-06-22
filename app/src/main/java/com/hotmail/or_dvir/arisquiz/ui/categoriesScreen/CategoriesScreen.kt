@@ -108,6 +108,7 @@ private fun ScreenTitle() {
 
 @Composable
 private fun CategoriesList(categories: List<CategoryLocalModel>) {
+stopped here. can i make sure that category name fits inside category "box?"
     LazyVerticalGrid(
         modifier = Modifier.fillMaxSize(),
         // todo test minSize
